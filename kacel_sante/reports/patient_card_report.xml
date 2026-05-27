@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--  Appointment card report template -->
+    <template id="appointment_card">
+                <t t-call="web.html_container">
+          <section>
+                <div class="header">
+                    <!-- Company Logo and Information -->
+                    <div class="row">
+                        <div class="col-xs-6">
+<!--                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 100px;"/>-->
+<!--                            <h2 t-if="company.name">Carte Patient - <span t-field="company.name"/></h2>-->
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <h3>Carte Patient</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Information -->
+                <div class="patient-info">
+                    <h3>Informations du Patient</h3>
+                    <p><strong>Nom:</strong> <span t-field="doc.patient_id.name"/></p>
+                    <p><strong>Âge:</strong> <span t-field="doc.patient_id.age"/></p>
+                    <p><strong>Téléphone:</strong> <span t-field="doc.patient_id.phone"/></p>
+                </div>
+
+                <!-- Actes and Number of Sessions -->
+                <div class="actes-table">
+                    <h3>Actes de Kinésithérapie</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Acte</th>
+                                <th>Montant</th>
+                                <th>Nombre de Séances</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.patient_act_session_ids" t-as="act">
+                                <td><span t-field="act.create_date" t-options='{"format": "dd/MM/yyyy"}'/></td>
+                                <td><span t-field="act.create_date" t-options='{"format": "HH:mm"}'/></td>
+                                <td><span t-field="act.act_id.name"/></td>
+                                <td><span t-field="act.act_id.amount"/></td>
+                                <td><span t-field="act.number_of_sessions"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary: Total Number of Sessions -->
+                <div class="summary">
+                    <h3>Résumé</h3>
+                    <div class="square">
+                        <strong>Total Séances:</strong>
+                        <span t-esc="sum(act.number_of_sessions for act in doc.patient_act_session_ids)"/>
+                    </div>
+                </div>
+          </section>
+        </t>
+
+<!--        <t t-call="web.html_container">-->
+<!--            <section>-->
+<!--                <div style="width: 500px; height: 260px; border: 2px black solid; border-radius: 5px;">-->
+<!--                    <div class="container"-->
+<!--                         style="width: 500px; height: 50px; background-color:red">-->
+<!--                        <span>-->
+<!--                            <i class="fa fa-wave-pulse" style="color:black;"/>-->
+<!--                        </span>-->
+<!--                        <h1 style="margin-left: 150px; padding-top: 10px; color:white; border-radius: 10px;">-->
+<!--                            Carte Patient-->
+<!--                        </h1>-->
+<!--                        <div class="page">-->
+<!--                            <h1 style="margin-left: 15px;">-->
+<!--                                <b>Token :-->
+<!--                                    <t t-esc="token"/>-->
+<!--                                </b>-->
+<!--                                <br/>-->
+<!--                                <label style="font-size: 18px;">-->
+<!--                                    <b>Doctor :-->
+<!--                                        <t t-esc="doctor"/>-->
+<!--                                    </b>-->
+<!--                                </label>-->
+<!--                            </h1>-->
+<!--                            <p style="margin-left: 15px;">-->
+<!--                                <label>-->
+<!--                                    <b>Specialised :</b>-->
+<!--                                    <t t-esc="specialised"/>-->
+<!--                                </label>-->
+<!--                                <br/>-->
+<!--                                <label>-->
+<!--                                    <b>Time :</b>-->
+<!--                                    <t t-esc="appointment_time"/>-->
+<!--                                </label>-->
+<!--                                <br/>-->
+<!--                                <label>-->
+<!--                                    <b>Date :</b>-->
+<!--                                    <t t-esc="date"/>-->
+<!--                                </label>-->
+<!--                                <div style="position:absolute; left:320px; top:100px;">-->
+<!--                                    <img t-attf-src="{{ request.httprequest.url_root }}dental_clinical_management/static/src/img/appointment.jpeg"-->
+<!--                                         style="height: 140px; width: 150px;"/>-->
+<!--                                </div>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+<!--        </t>-->
+    </template>
+    <!--  Action report appointment card  -->
+    <record id="action_appointment_card" model="ir.actions.report">
+        <field name="name">Appointment Card</field>
+        <field name="model">medical.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">kacel_sante.appointment_card</field>
+        <field name="report_file">kacel_sante.appointment_card</field>
+        <field name="binding_model_id"
+               ref="kacel_sante.model_medical_appointment"/>
+    </record>
+
+    <record id="paperformat_patient_card" model="report.paperformat">
+        <field name="name">Patient Card</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line">False</field>
+        <field name="header_spacing">10</field>
+    </record>
+</odoo>

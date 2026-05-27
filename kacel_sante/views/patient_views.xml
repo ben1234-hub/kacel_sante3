@@ -1,0 +1,306 @@
+<odoo>
+    <!-- Action pour le modèle Patient (res.partner) -->
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.list.patient</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='complete_name']" position="before">
+                <field string="N°" name="dossier_num"/>
+            </xpath>
+
+            <xpath expr="//field[@name='complete_name']" position="after">
+                <field name="name_arab" optional="hide"/>
+                <field name="date_naissance" optional="hide"/>
+                <field name="age"  optional="show"/>
+                <field name="wilaya" optional="show"/>
+                <field name="sexe" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="before">
+                <field name="affictation_ids" widget="many2many_tags"/>
+                <field name="examine_par" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="date_de_consultation" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="before">
+                <field name="abonne" string="Abonné" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_form_patient" model="ir.ui.view">
+        <field name="name">res.partner.form.patient</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='company_type']" position="before">
+                 <field string="N" name="dossier_num"/>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="replace">
+                <field name="affictation_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                <field name="examine_par"/>
+                <field name="date_de_consultation"/>
+                <field name="abonne" string="Abonné" readonly="1"/>
+            </xpath>
+<!--            <xpath expr="//field[@name='category_id']" position="before">-->
+<!--                <field name="examine_par"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='category_id']" position="before">-->
+<!--                <field name="date_de_consultation"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='category_id']" position="before">-->
+<!--                <field name="abonne" string="Abonné" readonly="1"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='vat']" position="replace">
+                <field name="name_arab"/>
+                <field name="wilaya"/>
+                <field name="date_naissance"/>
+                <field name="age"/>
+                <field name="sexe"/>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Protocole">
+                    <field name="patient_act_session_ids">
+                        <tree string="Actes de Kinésithérapie">
+                            <field name="act_id" string="Acte"/>
+                            <field name="number_of_sessions" string="Nombre de séances"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Abonnements"
+                      groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2">
+                    <field name="abonnement_ids">
+                        <tree string="Abonnements">
+                            <field name="name" readonly="1" optional="hide"/>
+                            <field name="date"/>
+                            <field name="date_debut" optional="hide"/>
+                            <field name="date_fin" optional="hide"/>
+<!--                            <field name="acts" widget="many2one_tags"/>-->
+                            <field name="type_abonnement_id"/>
+                            <field name="pack_name"/>
+                            <field name="etat"/>
+                            <field name="number_of_sessions" string="Nombre de Séances" optional="show"/>
+                            <field name="remaining_sessions"/>
+                            <field name="used_sessions" optional="hide"/>
+                            <field name="remise_globale" editable="bottom" optional="hide"/>
+                            <field name="total_sans_remise" optional="hide"/>
+                            <field name="total_avec_remise"/>
+                            <field name="total_verssement" optional="hide"/>
+                            <field name="amount_remaining" optional="show"/>
+                        </tree>
+                        <form>
+                            <!-- Ajouter patient_id caché -->
+                            <field name="patient_id" invisible="1"/>
+                            <group>
+                                <group>
+                                    <field name="name" readonly="1"/>
+                                    <field name="date"/>
+                                    <field name="date_debut"/>
+                                    <field name="date_fin"/>
+                                    <field name="type_abonnement_id"/>
+                                    <field name="pack_name"/>
+                                    <field name="act_ids"
+                                           widget="many2one_tags"
+                                           domain="[('patient_id', '=', patient_id)]"
+                                           options="{'no_create': True}">
+                                        <tree>
+                                            <field name="act_id"/>
+                                        </tree>
+                                    </field>
+
+                                </group>
+                                <group>
+                                    <field name="remise_globale"/>
+                                    <field name="total_sans_remise" readonly="1"/>
+                                    <field name="total_avec_remise" readonly="1"/>
+                                    <field name="total_verssement"/>
+                                    <field name="amount_remaining"/>
+                                    <field name="etat"/>
+                                </group>
+                            </group>
+                            <notebook>
+                        <page string="Versements">
+                            <field name="verssement_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date_verssement"/>
+                                    <field name="montant_versse"/>
+                                    <field name="rest"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="date_verssement"/>
+                                        <field name="montant_versse"/>
+                                        <field name="rest"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                                <page string="Historique des Séances">
+                            <field name="intensif_ids" readonly="1">
+                                <tree>
+                                    <field name="service_intensif_id" string="Séances"/>
+                                    <field name="start_date" string="Date de Début"/>
+                                    <field name="abonnement_id" string="Abonnement"/>
+                                    <field name="pack_name" string="Nom du Pack"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="service_intensif_id" string="Séances"/>
+                                        <field name="start_date" string="Date de Début"/>
+                                        <field name="abonnement_id" string="Abonnement"/>
+                                        <field name="pack_name" string="Nom du Pack"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+
+        <xpath expr="//page[@name='internal_notes']" position="before">
+            <page string="Historique des Rendez-vous" invisible = "show_historique_seances">
+                <field name="kinesitherapy_appointment_ids" readonly="1">
+                    <tree>
+                        <field name="appointment_name"/>
+                        <field name="appointment_date" string="Date et heur" editable="false"/>
+                        <field name="act_id" string="Actes"/>
+                        <field name="amount_display"/>
+                    </tree>
+                    <form>
+                        <group>
+                            <field name="appointment_name"/>
+                            <field name="appointment_date" string="Date et heur"/>
+                            <field name="act_id" string="Actes"/>
+                            <field name="amount_display"/>
+                        </group>
+                    </form>
+                </field>
+            </page>
+        </xpath>
+        <xpath expr="//page[@name='internal_notes']" position="before">
+            <field name="show_historique_seances" invisible="1"/>
+            <page string="Historique des Séances" invisible = "not show_historique_seances">
+                <field name="intensif_ids" readonly="1">
+                    <tree>
+                        <field name="service_intensif_id" string="Séances"/>
+                        <field name="start_date" string="Date de Début"/>
+                        <field name="abonnement_id" string="Abonnement"/>
+                        <field name="pack_name" string="Nom du Pack"/>
+                    </tree>
+                    <form>
+                        <group>
+                            <field name="service_intensif_id" string="Séances"/>
+                            <field name="start_date" string="Date de Début"/>
+                            <field name="abonnement_id" string="Abonnement"/>
+                            <field name="pack_name" string="Nom du Pack"/>
+                        </group>
+                    </form>
+                </field>
+            </page>
+        </xpath>
+            <!-- Added new page Medical Qestionare on patient -->
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="medical_questionare" string="Dossier Médical">
+                    <field name="medical_questionnaire_ids" widget="one2many">
+                        <tree string= "Medical Questionare" editable="bottom">
+                            <field name="question_id"/>
+                            <field name="yes_no" widget="radio" readonly="False"/>
+                            <field name="reason"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <!-- Invisible the page Sales Purchases on patient -->
+            <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Invisible the page Accounting on patient -->
+
+<!--            <xpath expr="//field[@name='function']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='street']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='street2']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='zip']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="replace"/>
+<!--            <xpath expr="//field[@name='email']" position="replace"/>-->
+            <xpath expr="//field[@name='website']" position="replace"/>
+            <xpath expr="//field[@name='title']" position="replace"/>
+        </field>
+    </record>
+    <!-- Inherit the existing form view for res.partner.category -->
+    <record id="view_partner_category_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.category.form.inherit</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_form"/>
+        <field name="arch" type="xml">
+            <!-- Replace the 'active' field with the 'free' field -->
+            <xpath expr="//field[@name='active']" position="replace">
+                <field name="free" string="Free" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

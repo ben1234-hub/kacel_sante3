@@ -1,0 +1,26 @@
+<!-- transfer_wizard.xml -->
+<odoo>
+    <record id="view_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">patient.transfer.wizard.form</field>
+        <field name="model">patient.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="current_appointment_id" invisible="1"/>
+                    <field name="selected_act_id" invisible="1"/>
+                    <field name="target_appointment_id"
+                           domain="[('state', 'not in', ['done','canceled'])]"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_transfer"
+                            type="object"
+                            class="btn-primary"
+                            string="Confirmer"/>
+                    <button string="Annuler"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

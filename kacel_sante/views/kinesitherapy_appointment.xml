@@ -1,0 +1,153 @@
+<odoo>
+
+    <record id="view_kinesitherapy_appointment_form" model="ir.ui.view">
+    <field name="name">kinesitherapy.appointment.form</field>
+    <field name="model">kinesitherapy.appointment</field>
+    <field name="arch" type="xml">
+        <form>
+            <div style="display: flex; justify-content: center; margin-bottom: 16px; background-color: black;"
+                groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception2">
+                    <button type="action" name="%(kacel_sante.action_open_history_caisse)d" class="oe_stat_button" style="width: auto;">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text" style="font-size: 14px; font-weight: bold; color: white;">Caisse</span>
+                            <span class="o_stat_value d-flex gap-1" style="color: #28a745; font-size: 18px; font-weight: bold;">
+                                <field name="total_amount_casse" nolabel="1"/>
+                            </span>
+                        </div>
+                    </button>
+            </div>
+            <header>
+                <!-- Boutons d'action -->
+                <button string="Confirmer" type="object"
+                        name="action_confirm"
+                        class="btn-primary"
+                        invisible="state!='draft'"/>
+                <button string="Terminer" type="object"
+                        name="action_done"
+                        class="btn-success"
+                        invisible="state != 'confirmed' or not all_patients_payed"/>
+                <button string="Annuler" type="object"
+                        name="action_cancel"
+                        class="btn-danger"
+                        invisible="state in ('done', 'canceled')"/>
+                <button string="Retourner au Brouillon" type="object"
+                        name="action_return_to_draft"
+                        class="btn-secondary"
+                        invisible="state in ('draft', 'done')"/>
+
+                <!-- Widget statusbar pour l'état -->
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,canceled"/>
+            </header>
+            <sheet>
+                <!-- Nom du rendez-vous en grand -->
+                <h1>
+                    <field name="name" readonly="1" class="oe_inline"/>
+                </h1>
+                <field name="all_patients_payed" string="All Patients Payed" readonly="1" invisible="1"/>
+                <group>
+                    <group>
+                        <!-- Date et heure du rendez-vous -->
+                        <field name="appointment_date" string="Date et heure du rendez-vous" required="1"
+                               readonly="state in ['done', 'canceled']"/>
+                        <!-- Durée du rendez-vous (modifiable) -->
+                        <field name="duration" string="Durée du rendez-vous (heures)" required="1"
+                               readonly="state in ['done', 'canceled']"/>
+                    </group>
+                    <group>
+                        <!-- Fin du rendez-vous (calculée automatiquement) -->
+                        <field name="end_date" string="Fin du rendez-vous" readonly="1"/>
+                        <field name="total_patients" string="Total Patients" readonly="1"/>
+                        <field name="total_selected_amount" string="Total du Jour" readonly="1"/>
+                    </group>
+                </group>
+                <!-- Notebook pour afficher les détails -->
+                <notebook>
+                    <page string="Patients">
+                        <!-- Related Acts -->
+                        <field name="selected_act_ids" domain="[('act_id', '!=', False)]"
+                               readonly="state in ['done', 'canceled']">
+                            <tree string="Actes Médicaux" editable="bottom">
+                                <field name="patient_id" string="Patient" widget="many2one_tags"/>
+                                <field name="patient_phone" string="Téléphone"/>
+                                <field name="act_id" string="Acte"/>
+                                <field name="amount_display" string="Montant"/>
+                                <field name="available_act_ids" widget="many2many_tags" optional="hide"/>
+                                <field name="number_of_sessions" optional="hide"/>
+                                <field name="remaining_sessions" optional="hide"/>
+                                <field name="payed" string="Payed" widget="boolean_button"/>
+                                <button name="action_transfer_patient"
+                                        type="object"
+                                        class="btn-primary"
+                                        icon="fa-exchange"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <!-- Calendrier des rendez-vous -->
+<record id="view_kinesitherapy_appointment_calendar" model="ir.ui.view">
+    <field name="name">kinesitherapy.appointment.calendar</field>
+    <field name="model">kinesitherapy.appointment</field>
+    <field name="arch" type="xml">
+        <calendar string="Rendez-vous"
+                  event_open_popup="false"
+                  quick_create="false"
+                  create="form"
+                  date_start="appointment_date"
+                  date_stop="end_date"
+                  color="state">
+            <field name="total_patients" string="Total Patients"/>
+            <field name="patient_details" string="Patients"/>
+        </calendar>
+    </field>
+</record>
+    <record id="view_kinesitherapy_appointment_tree" model="ir.ui.view">
+    <field name="name">kinesitherapy.appointment.tree</field>
+    <field name="model">kinesitherapy.appointment</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name" readonly="1"/>  <!-- Nouveau champ -->
+            <field name="total_patients" string="Total Patients"/>
+            <field name="appointment_date"/>
+<!--            <field name="duration_display" string="Durée restante"/>-->
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+    <record id="action_kinesitherapy_appointment" model="ir.actions.act_window">
+        <field name="name">Rendez-vous</field>
+        <field name="res_model">kinesitherapy.appointment</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+    <menuitem id="menu_kinesitherapy_root" name="Service Adult"/>
+    <menuitem id="menu_kinesitherapy_appointment"
+              name="Rendez-vous" parent="menu_kinesitherapy_root"
+              action="action_kinesitherapy_appointment"
+              sequence="2"/>
+    <menuitem id="menu_patient_action2"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"
+              name="Patients"
+              parent="menu_kinesitherapy_root"
+              action="action_patient"
+              sequence="3"/>
+
+    <menuitem id="menu_caisse_root"
+              name="Caisse" parent="menu_kinesitherapy_root"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception2"/>
+
+    <menuitem id="menu_caisse_1"
+              name="Caisse 1ere etage" parent="menu_caisse_root"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception2"
+              action="action_open_history_caisse"/>
+        <!-- Menuitem for Caisse Abonnement -->
+    <menuitem id="menu_caisse_abonnement"
+              name="Caisse Abonnement"
+              parent="menu_caisse_root"
+              action="action_open_caisse_abonnement"/>
+
+</odoo>

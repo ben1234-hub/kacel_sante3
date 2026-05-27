@@ -1,0 +1,77 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_kinesitherapy_act_manager","Accès aux actes de kinésithérapie (Manager)","model_kinesitherapy_act","group_kacel_manager",1,1,1,1
+"access_patient_manager","Accès aux patients (Manager)","model_res_partner","group_kacel_manager",1,1,1,1
+"access_kinesitherapy_selected_act_manager","Accès aux actes sélectionnés (Manager)","model_kinesitherapy_appointment_selected_act","group_kacel_manager",1,1,1,1
+"access_kinesitherapy_appointment_manager","Accès aux rendez-vous (Manager)","model_kinesitherapy_appointment","group_kacel_manager",1,1,1,1
+"access_medical_questions_manager","Accès aux medical_questions (Manager)","model_medical_questions","group_kacel_manager",1,1,1,1
+"access_medical_questionnaire_manager","Accès aux medical_questionnaire (Manager)","model_medical_questionnaire","group_kacel_manager",1,1,1,1
+"access_affiction_manager","Accès aux affiction (Manager)","model_affiction","group_kacel_manager",1,1,1,1
+"access_medical_doctor_manager","Accès aux medical_doctor (Manager)","model_medical_doctor","group_kacel_manager",1,1,1,1
+"access_medical_appointment_manager","Accès aux medical_appointment (Manager)","model_medical_appointment","group_kacel_manager",1,1,1,1
+"access_patient_act_session_manager","Accès aux patient_act_session (Manager)","model_patient_act_session","group_kacel_manager",1,1,1,1
+"access_history_caisse_manager","Accès aux history_caisse (Manager)","model_history_caisse","group_kacel_manager",1,1,1,1
+"access_planing_sex_manager","Accès aux planing_sex (Manager)","model_planing_sex","group_kacel_manager",1,1,1,1
+"access_transfer_wizard_manager","Accès aux transfer_wizard (Manager)","model_patient_transfer_wizard","group_kacel_manager",1,1,1,1
+"access_banliotherapie_appointment_manager","Accès aux banliotherapie_appointment (Manager)","model_banliotherapie_appointment","group_kacel_manager",1,1,1,1
+"access_history_caisse_banliotherapie_manager","Accès aux history_caisse_banliotherapie (Manager)","model_history_caisse_banliotherapie","group_kacel_manager",1,1,1,1
+"access_banliotherapie_appointment_patient_manager","Accès aux banliotherapie_appointment_patient (Manager)","model_banliotherapie_appointment_patient","group_kacel_manager",1,1,1,1
+"access_gestion_tarif_manager","Accès aux gestion_tarif (Manager)","model_gestion_tarif","group_kacel_manager",1,1,1,1
+"access_planning_slot_manager","Accès aux planning_slot (Manager)","model_planning_slot","group_kacel_manager",1,1,1,1
+"access_gestion_abonnement_manager","Accès aux gestion_abonnement (Manager)","model_gestion_abonnement","group_kacel_manager",1,1,1,1
+"access_change_appointment_wizard_manager","Accès aux change_appointment_wizard (Manager)","model_change_appointment_wizard","group_kacel_manager",1,1,1,1
+"access_pay_act_wizard_manager","Accès aux pay_act_wizard (Manager)","model_pay_act_wizard","group_kacel_manager",1,1,1,1
+"access_caisse_abonnement_manager","Accès aux caisse_abonnement (Manager)","model_caisse_abonnement","group_kacel_manager",1,1,1,1
+"access_type_abonnement_manager","Accès aux type_abonnement (Manager)","model_type_abonnement","group_kacel_manager",1,1,1,1
+"access_pack_manager","Accès aux pack (Manager)","model_pack","group_kacel_manager",1,1,1,1
+"access_verssement_manager","Accès aux verssement (Manager)","model_verssement","group_kacel_manager",1,1,1,1
+"access_service_intensif_manager","Accès aux service_intensif (Manager)","model_service_intensif","group_kacel_manager",1,1,1,1
+"access_service_intensif_config_manager","Accès aux service_intensif_config (Manager)","model_service_intensif_config","group_kacel_manager",1,1,1,1
+access_service_intensif_patient_line_manager,access_service_intensif_patient_line_manager,model_service_intensif_patient_line,group_kacel_manager,1,1,1,1
+access_kinesitherapist_manager,access_kinesitherapist_manager,model_kinesitherapist,group_kacel_manager,1,1,1,1
+access_planning_kines_manager,access_planing_kines_manager,model_planing_kines,group_kacel_manager,1,1,1,1
+access_planing_kines_line_manager,access_planing_kines_line_manager,model_planing_kines_line,group_kacel_manager,1,1,1,1
+
+access_act_practice_count_manager,access_act_practice_count_manager,model_act_practice_count,group_kacel_manager,1,1,1,1
+access_act_practice_details_manager,access_act_practice_details_manager,model_act_practice_details,group_kacel_manager,1,1,1,1
+
+"access_patient_reception1","Accès aux patients (Reception1)","model_res_partner","group_kacel_reception1",1,1,1,1
+"access_kinesitherapy_appointment_reception1","Accès aux rendez-vous (Reception1)","model_kinesitherapy_appointment","group_kacel_reception1",1,1,1,1
+"access_medical_appointment_reception1","Accès aux medical_appointment (Reception1)","model_medical_appointment","group_kacel_reception1",1,1,1,1
+"access_transfer_wizard_reception1","Accès aux transfer_wizard (Reception1)","model_patient_transfer_wizard","group_kacel_reception1",1,1,1,1
+"access_banliotherapie_appointment_reception1","Accès aux banliotherapie_appointment (Reception1)","model_banliotherapie_appointment","group_kacel_reception1",1,1,1,1
+"access_banliotherapie_appointment_patient_reception1","Accès aux banliotherapie_appointment_patient (Reception1)","model_banliotherapie_appointment_patient","group_kacel_reception1",1,1,1,1
+"access_change_appointment_wizard_reception1","Accès aux change_appointment_wizard (Reception1)","model_change_appointment_wizard","group_kacel_reception1",1,1,1,1
+"access_kinesitherapy_act_reception1","Accès aux actes de kinésithérapie (Reception1)","model_kinesitherapy_act","group_kacel_reception1",1,0,0,0
+"access_affiction_reception1","Accès aux affiction (Reception1)","model_affiction","group_kacel_reception1",1,0,0,0
+"access_patient_act_session_reception1","Accès aux patient_act_session (Reception1)","model_patient_act_session","group_kacel_reception1",1,1,0,0
+"access_history_caisse_reception1","Accès aux history_caisse (Reception1)","model_history_caisse","group_kacel_reception1",0,1,0,0
+"access_history_caisse_banliotherapie_reception1","Accès aux history_caisse_banliotherapie (Reception1)","model_history_caisse_banliotherapie","group_kacel_reception1",1,1,0,0
+"access_gestion_tarif_reception1","Accès aux gestion_tarif (Reception1)","model_gestion_tarif","group_kacel_reception1",1,1,0,0
+"access_planning_slot_reception1","Accès aux planning_slot (Reception1)","model_planning_slot","group_kacel_reception1",1,0,0,0
+"access_gestion_abonnement_reception1","Accès aux gestion_abonnement (Reception1)","model_gestion_abonnement","group_kacel_reception1",1,1,1,0
+"access_medical_questions_reception1","Accès aux medical_questions (reception1)","model_medical_questions","group_kacel_reception1",1,0,0,0
+"access_medical_questionnaire_reception1","Accès aux medical_questionnaire (reception1)","model_medical_questionnaire","group_kacel_reception1",1,0,0,0
+"access_pay_act_wizard_reception1","Accès aux pay_act_wizard (reception1)","model_pay_act_wizard","group_kacel_reception1",1,1,1,1
+
+"access_gestion_abonnement_reception2","Accès aux gestion_abonnement (Reception2)","model_gestion_abonnement","group_kacel_reception2",1,1,0,0
+"access_patient_reception2","Accès aux patients (Reception2)","model_res_partner","group_kacel_reception2",1,1,1,1
+"access_kinesitherapy_appointment_reception2","Accès aux rendez-vous (Reception2)","model_kinesitherapy_appointment","group_kacel_reception2",1,1,1,1
+"access_medical_appointment_reception2","Accès aux medical_appointment (Reception2)","model_medical_appointment","group_kacel_reception2",1,1,1,1
+"access_transfer_wizard_reception2","Accès aux transfer_wizard (Reception2)","model_patient_transfer_wizard","group_kacel_reception2",1,1,1,1
+"access_kinesitherapy_act_reception2","Accès aux actes de kinésithérapie (Reception2)","model_kinesitherapy_act","group_kacel_reception2",1,0,0,0
+"access_affiction_reception2","Accès aux affiction (Reception2)","model_affiction","group_kacel_reception2",1,0,0,0
+"access_patient_act_session_reception2","Accès aux patient_act_session (Reception2)","model_patient_act_session","group_kacel_reception2",1,0,0,0
+"access_history_caisse_reception2","Accès aux history_caisse (Reception2)","model_history_caisse","group_kacel_reception2",1,0,1,0
+"access_medical_questions_reception2","Accès aux medical_questions (reception2)","model_medical_questions","group_kacel_reception2",1,0,0,0
+"access_medical_questionnaire_reception2","Accès aux medical_questionnaire (reception2)","model_medical_questionnaire","group_kacel_reception2",1,0,0,0
+"access_kinesitherapy_selected_act_reception2","Accès aux actes sélectionnés (reception2)","model_kinesitherapy_appointment_selected_act","group_kacel_reception2",1,1,1,1
+
+"access_medical_questions_doctor","Accès aux medical_questions (Doctor)","model_medical_questions","group_kacel_doctor",1,1,1,1
+"access_medical_questionnaire_doctor","Accès aux medical_questionnaire (Doctor)","model_medical_questionnaire","group_kacel_doctor",1,1,1,1
+"access_patient_doctor","Accès aux patients (Doctor)","model_res_partner","group_kacel_doctor",1,1,0,0
+"access_kinesitherapy_selected_act_doctor","Accès aux actes sélectionnés (Doctor)","model_kinesitherapy_appointment_selected_act","group_kacel_doctor",1,1,1,1
+"access_affiction_doctor","Accès aux affiction (Doctor)","model_affiction","group_kacel_doctor",1,1,0,0
+"access_medical_appointment_doctor","Accès aux medical_appointment (Doctor)","model_medical_appointment","group_kacel_doctor",1,1,0,0
+"access_patient_act_session_doctor","Accès aux patient_act_session (Doctor)","model_patient_act_session","group_kacel_doctor",1,1,1,1
+"access_gestion_abonnement_doctor","Accès aux gestion_abonnement (doctor)","model_gestion_abonnement","group_kacel_doctor",1,1,0,0
+"access_kinesitherapy_act_doctor","Accès aux actes de kinésithérapie (doctor)","model_kinesitherapy_act","group_kacel_doctor",1,1,0,0

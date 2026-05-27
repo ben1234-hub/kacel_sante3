@@ -1,0 +1,12 @@
+<odoo>
+    <record id="cron_create_daily_caisse" model="ir.cron">
+        <field name="name">Create Daily Caisse</field>
+        <field name="model_id" ref="model_caisse"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_create_daily_caisse()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall">True</field>
+    </record>
+</odoo>

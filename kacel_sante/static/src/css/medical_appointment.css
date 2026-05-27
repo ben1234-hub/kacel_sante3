@@ -1,0 +1,14 @@
+/* Custom styles for medical appointment views */
+.oe_form_sheet_background {
+    background-color: #f5f5f5;
+}
+
+.oe_form_field_cell {
+    padding: 10px;
+}
+
+.oe_form_group {
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

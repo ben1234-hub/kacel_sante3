@@ -1,0 +1,39 @@
+<odoo>
+    <!-- Tree View for Planing Sex -->
+<record id="view_planing_sex_tree" model="ir.ui.view">
+    <field name="name">planing.sex.tree</field>
+    <field name="model">planing.sex</field>
+    <field name="arch" type="xml">
+        <tree string="Planning des Séances">
+            <!-- Define the columns to display in the tree view -->
+            <field name="jour_semaine"/>
+            <field name="sex"/> <!-- Add the sex field -->
+            <field name="shift"/>
+        </tree>
+    </field>
+</record>
+
+    <!-- Form View for Planing Sex (Optional, if you want to define it) -->
+<record id="view_planing_sex_form" model="ir.ui.view">
+    <field name="name">planing.sex.form</field>
+    <field name="model">planing.sex</field>
+    <field name="arch" type="xml">
+        <form string="Planning des Séances">
+            <sheet>
+                <group>
+                    <field name="jour_semaine"/>
+                    <field name="sex"/> <!-- Add the sex field -->
+                    <field name="shift"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <!-- Action to open the tree and form views -->
+    <record id="action_planing_sex" model="ir.actions.act_window">
+        <field name="name">Planning des Séances</field>
+        <field name="res_model">planing.sex</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

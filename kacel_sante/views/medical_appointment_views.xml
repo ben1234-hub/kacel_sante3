@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+     <!-- Search View -->
+<record id="view_medical_appointment_search" model="ir.ui.view">
+    <field name="name">medical.appointment.search</field>
+    <field name="model">medical.appointment</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="patient_id"/>
+            <field name="name"/>
+            <field name="patient_phone"/>
+            <field name="affictation_ids"/>
+            <field name="state"/>
+            <field name="appointment_date" string="Date du Rendez-vous"/>
+            <!-- Default filter for today's appointments -->
+            <filter string="Aujourd'hui" name="today"
+                    domain="[('appointment_date',
+                    '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')),
+                    ('appointment_date', '&lt;',
+                    context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+        </search>
+    </field>
+</record>
+    <!-- Form View -->
+    <record id="view_medical_appointment_form" model="ir.ui.view">
+        <field name="name">medical.appointment.form</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <div style="display: flex; justify-content: center; margin-bottom: 16px; background-color: black;"
+                     groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception2">
+                    <button type="action" name="%(kacel_sante.action_open_history_caisse)d"
+                            class="oe_stat_button" style="width: auto;">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text" style="font-size: 14px; font-weight: bold; color: white;">Caisse</span>
+                            <span class="o_stat_value d-flex gap-1" style="color: #28a745; font-size: 18px; font-weight: bold;">
+                                <field name="total_amount_casse" nolabel="1" class="oe_inline"/>
+                            </span>
+                        </div>
+                    </button>
+                </div>
+                <header>
+    <!-- Widget statusbar pour l'état du RDV -->
+                                <!-- Widget statusbar pour l'état du RDV -->
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,confirm,consult,endconsult,done,cancel"/>
+
+                <!-- Boutons pour changer l'état -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button string="Confirmer" type="object" name="action_confirm"
+                                groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"
+                                class="btn-primary" invisible="state != 'draft'"/>
+                        <button string="En Consultation" type="object" name="action_consult"
+                                class="btn-secondary" invisible="state != 'confirm'"/>
+                        <button string="Terminer Consultation" type="object" name="action_endconsult"
+                                class="btn-success" invisible="state != 'consult'"/>
+                        <button string="Terminer" type="object" name="action_done"
+                                groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"
+                                class="btn-success" invisible="state != 'endconsult'"/>
+                        <button string="Annuler" type="object" name="action_cancel"
+                                class="btn-danger" invisible="state not in ['draft', 'confirm', 'consult', 'endconsult']"
+                                groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"/>
+                        <!-- Optional: Reopen button -->
+                        <button string="Reopen" type="object" name="action_reopen"
+                                class="btn-warning" invisible="state != 'done'"
+                                groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"/>
+                        </div>
+
+                    </div>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="appointment_date" required="1"/>
+                            <field name="patient_id" required="1"/>
+                            <field name="affictation_ids" string="Service" required="1" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                        <group groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2">
+                            <field name="amount" string="Montant initial"/>
+                            <field name="discount" string="Remise (%)"/>
+                            <field name="discounted_amount" string="Montant après remise" readonly="1"/>
+                            <field name="amount_display" string="Montant à payer" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- Page 1: Informations du patient -->
+                        <page string="Informations du Patient">
+                            <group>
+                                <group>
+                                    <field name="patient_date_naissance" string="Date de Naissance"/>
+                                <!-- Afficher ces champs uniquement pour les états draft et confirm -->
+                                <field name="patient_age" string="Âge" />
+                                <field name="patient_sexe" string="Sexe" />
+
+                                </group>
+                              <group>
+                                <field name="patient_phone" string="Téléphone"/>
+                                <field name="patient_category_id" string="Étiquettes"
+                                       widget="many2many_tags"/>
+                                  <field name="patient_wilaya" string="Wilaya" />
+                               </group>
+                            </group>
+
+                        </page>
+
+                        <!-- Page 2: Questionnaires médicaux (uniquement pour consult et done) -->
+                        <page string="Questionnaires Médicaux" invisible="state not in ['consult','endconsult','done']">
+                            <field name="medical_questionnaire_ids" widget="one2many">
+                                  <tree string= "Medical Questionare" editable="bottom">
+                                      <field name="question_id"/>
+                                      <field name="yes_no" widget="radio" readonly="False"/>
+                                      <field name="reason"/>
+                                  </tree>
+                             </field>
+                        </page>
+
+                        <!-- Page 3: Actes de kinésithérapie (uniquement pour consult et done) -->
+                        <page string="Protocol" invisible="state not in ['consult','endconsult','done']">
+                            <field name="act_ids" widget="one2many">
+                                <tree string="Actes Médical" editable="bottom">
+                                    <field name="act_id" string="Acte"/>
+                                    <field name="number_of_sessions" string="Nombre de séances"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                            <!-- Chatter Section -->
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_medical_appointment_tree" model="ir.ui.view">
+        <field name="name">medical.appointment.tree</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'done'"
+                  decoration-danger="state == 'cancel'"
+                  decoration-warning="state == 'draft'"
+                  decoration-info="state == 'confirm'"
+                  decoration-primary="state == 'consult'">
+                <field name="name" string="Code"/>
+                <field name="patient_id"/>
+                <field name="patient_phone" string="Téléphone"/>
+                <field name="affictation_ids" decoration-danger="affictation_ids.name == 'Urgence'"
+                       decoration-success="affictation_ids.name == 'Routine'" widget="many2many_tags" options="{'no_create': True}"/>
+                <field name="appointment_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_medical_appointment_calendar" model="ir.ui.view">
+        <field name="name">medical.appointment.calendar</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <calendar color="state"
+                      date_start="appointment_date"
+                      quick_create="false">
+
+                <field name="patient_id"/>
+                <field name="affictation_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+
+</odoo>

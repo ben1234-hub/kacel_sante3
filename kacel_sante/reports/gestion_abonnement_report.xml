@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Ajout du rapport -->
+<record id="action_report_gestion_abonnement" model="ir.actions.report">
+    <field name="name">Rapport d'Abonnement</field>
+    <field name="model">gestion.abonnement</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">kacel_sante.report_abonnement</field>
+    <field name="print_report_name">'Rapport_Abonnement_' + object.name</field>
+    <field name="binding_model_id" ref="model_gestion_abonnement"/>
+</record>
+
+    <template id="report_abonnement">
+        <t t-call="web.html_container">
+            <style>
+            @page {
+                size: A5; /* Set the page size to A5 */
+                margin: 10mm; /* Adjust margins as needed */
+            }
+            .page {
+                width: 148mm; /* A5 width */
+                min-height: 210mm; /* A5 height */
+                margin: auto; /* Center the content */
+                padding: 10mm; /* Add padding inside the page */
+                box-sizing: border-box;
+            }
+        </style>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <!-- En-tête avec logo et info société -->
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <!-- Logo -->
+                        <div>
+                            <img t-if="o.company_id.logo"
+                                 t-att-src="image_data_uri(o.company_id.logo)"
+                                 style="max-height: 80px; margin-bottom: 10px;"/>
+                        </div>
+                        <!-- Company Information -->
+                        <div style="text-align: center;">
+                            <h3 t-field="o.company_id.name" style="margin: 5px 0;"/>
+                            <p t-field="o.company_id.street" style="margin: 2px 0;"/>
+                            <p t-field="o.company_id.phone" style="margin: 2px 0;"/>
+                            <p t-field="o.company_id.email" style="margin: 2px 0;"/>
+                        </div>
+                    </div>
+                    <!-- Titre principal -->
+                    <h2 style="text-align: center; margin: 30px 0;">BON D'ABONNEMENT</h2>
+
+                    <!-- Code et Date -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p>Code: <span t-field="o.name"/></p>
+                        <p>Date: <span t-field="o.date"/></p>
+                    </div>
+
+                    <!-- Section Patient/Acte -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="display: flex; align-items:">
+                            <h4 style="margin: 0; margin-right: 10px;">Patient:</h4>
+                            <p style="margin: 0;" t-field="o.patient_id.name"/>
+                        </div>
+
+                        <div>
+                            <h4>Acte:
+                            <p t-field="o.acts.name"/>
+                            </h4>
+
+                        </div>
+                    </div>
+                    <!-- Détails financiers -->
+<table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <th style="border: 1px solid black; padding: 8px;">Nombre de Séance</th>
+        <th style="border: 1px solid black; padding: 8px;">Total sans Remise</th>
+        <th style="border: 1px solid black; padding: 8px;">Total avec Remise</th>
+        <th style="border: 1px solid black; padding: 8px;">Montant Payé</th>
+        <th style="border: 1px solid black; padding: 8px;">Montant Restant</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <span t-field="o.number_of_sessions"/>
+        </td>
+        <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <span t-field="o.total_sans_remise"/>
+        </td>
+        <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <span t-field="o.total_avec_remise"/>
+        </td>
+        <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <span t-field="o.amount_paid"/>
+<!--            <strong>Amounting to:</strong> <t t-out="format_amount(env, pos_order.amount_total, pos_order.currency_id)"/>-->
+<!--            <span t-out="format_amount(env, gestion_abonnement.amount_paid, gestion_abonnement.currency_id)"/>-->
+        </td>
+        <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <span t-field="o.amount_remaining"/>
+        </td>
+    </tr>
+</table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

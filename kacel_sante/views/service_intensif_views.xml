@@ -1,0 +1,139 @@
+<odoo>
+
+    <record id="view_service_intensif_search" model="ir.ui.view">
+        <field name="name">service.intensif.search</field>
+        <field name="model">service.intensif</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmé" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Terminé" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Annulé" name="canceled" domain="[('state', '=', 'canceled')]"/>
+            </search>
+        </field>
+    </record>
+        <!-- Form View -->
+    <record id="view_service_intensif_form" model="ir.ui.view">
+        <field name="name">service.intensif.form</field>
+        <field name="model">service.intensif</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Confirmer" type="object" name="action_confirm" class="btn-primary" invisible="state != 'draft'"/>
+                    <button string="Terminer" type="object" name="action_done" class="btn-success" invisible="state != 'confirmed'"/>
+                    <button string="Annuler" type="object" name="action_cancel" class="btn-danger" invisible="state in ('done', 'canceled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,canceled"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+<!--                    <field name="affiction_ids" widget="many2many_tags"/>-->
+                            <field name="start_date"/>
+
+                        </group>
+                        <group>
+                            <field name="duration"/>
+                            <field name="end_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Patients">
+                            <field name="patient_line_ids" readonly="state in ('draft', 'done')">
+                                <tree editable="bottom">
+                                    <field name="suitable_patient_ids" invisible="1" optional="hide"/>
+                                    <field name="patient_id" />
+                                    <field name="name_arab" optional="hide"/>
+                                    <field name="abonnement_id" domain="[('patient_id', '=', patient_id),('etat', '!=', 'ferme')]"/>
+                                    <field name="type_abonnement_id" optional="hide"/>
+                                    <field name="pack_name"/>
+                                    <field name="total_verssement" optional="hide"/>
+                                    <field name="total_avec_remise" optional="hide"/>
+                                    <field name="etat" optional="show"/>
+                                    <field name="number_of_sessions" optional="show"/>
+                                    <field name="remaining_sessions" optional="show"/>
+                                    <field name="used_sessions" optional="hide"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                                            <!-- Chatter Section -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+        <!-- Tree View -->
+    <record id="view_service_intensif_tree" model="ir.ui.view">
+        <field name="name">service.intensif.tree</field>
+        <field name="model">service.intensif</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="duration"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_service_intensif_calendar" model="ir.ui.view">
+        <field name="name">service.intensif.calendar</field>
+        <field name="model">service.intensif</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_date" date_stop="end_date"
+                      color="state"
+                      event_open_popup="false"
+                      quick_create="false">
+                <field name="name"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_service_intensif" model="ir.actions.act_window">
+        <field name="name">Services Intensive</field>
+        <field name="res_model">service.intensif</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <record id="view_service_intensif_config_tree" model="ir.ui.view">
+        <field name="name">service.intensif.config.tree</field>
+        <field name="model">service.intensif.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="default_affiction_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_service_intensif_config_form" model="ir.ui.view">
+        <field name="name">service.intensif.config.form</field>
+        <field name="model">service.intensif.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="default_affiction_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_service_intensif_config" model="ir.actions.act_window">
+        <field name="name">Configuration du Service Intensif</field>
+        <field name="res_model">service.intensif.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

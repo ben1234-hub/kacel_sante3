@@ -1,0 +1,45 @@
+<odoo>
+<record id="view_kinesitherapist_tree" model="ir.ui.view">
+    <field name="name">kinesitherapist.tree</field>
+    <field name="model">kinesitherapist</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+            <field name="specialite"/>
+            <field name="affictation_ids" widget="many2many_tags"/>
+            <field name="date_recruttement"/>
+            <field name="date_fin_contrat"/>
+            <field name="disponibilites"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_kinesitherapist_form" model="ir.ui.view">
+    <field name="name">kinesitherapist.form</field>
+    <field name="model">kinesitherapist</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="specialite"/>
+                    <field name="affictation_ids" widget="many2many_tags"/>
+                </group>
+                <group>
+                    <field name="date_recruttement"/>
+                    <field name="date_fin_contrat"/>
+                    <field name="disponibilites"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="action_kinesitherapist" model="ir.actions.act_window">
+    <field name="name">Kinésithérapeutes</field>
+    <field name="res_model">kinesitherapist</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>

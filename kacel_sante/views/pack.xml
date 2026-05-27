@@ -1,0 +1,90 @@
+<odoo>
+    <!-- Action for Pack -->
+    <record id="action_pack" model="ir.actions.act_window">
+        <field name="name">Packs</field>
+        <field name="res_model">pack</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action for Type Abonnement -->
+    <record id="action_type_abonnement" model="ir.actions.act_window">
+        <field name="name">Types d'Abonnement</field>
+        <field name="res_model">type.abonnement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Form View for Pack -->
+    <record id="view_pack_form" model="ir.ui.view">
+        <field name="name">pack.form</field>
+        <field name="model">pack</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="type_abonnement_id"/>
+                        <field name="nombre_seance"/>
+                        <field name="amount"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Pack -->
+    <record id="view_pack_tree" model="ir.ui.view">
+        <field name="name">pack.tree</field>
+        <field name="model">pack</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="type_abonnement_id"/>
+                <field name="nombre_seance"/>
+                <field name="amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View for Type Abonnement -->
+<!--    <record id="view_type_abonnement_form" model="ir.ui.view">-->
+<!--        <field name="name">type.abonnement.form</field>-->
+<!--        <field name="model">type.abonnement</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="name"/>-->
+<!--                        <field name="pack_id"/>-->
+<!--                        <field name="description"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- Tree View for Type Abonnement -->
+<!--    <record id="view_type_abonnement_tree" model="ir.ui.view">-->
+<!--        <field name="name">type.abonnement.tree</field>-->
+<!--        <field name="model">type.abonnement</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="name"/>-->
+<!--                <field name="pack_id"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- Add Menu Items for Packs and Types d'Abonnement -->
+    <menuitem id="menu_pack"
+              name="Packs"
+              parent="menu_configuration"
+              action="action_pack"
+              sequence="3"/>
+
+<!--    <menuitem id="menu_type_abonnement"-->
+<!--              name="Types d'Abonnement"-->
+<!--              parent="menu_configuration"-->
+<!--              action="action_type_abonnement"-->
+<!--              sequence="4"/>-->
+</odoo>

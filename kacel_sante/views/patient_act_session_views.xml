@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_patient_act_session_views" model="ir.actions.act_window">
+        <field name="name">Les Actes de patient</field>
+        <field name="res_model">patient.act.session</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_patient_act_session_tree" model="ir.ui.view">
+        <field name="name">patient.act.session.tree</field>
+        <field name="model">patient.act.session</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_id" string="Patient"/>
+                <field name="act_id" string="Acte de Kinésithérapie"/>
+                <!-- Number of Sessions Field -->
+                <field name="number_of_sessions" string="Nombre de séances"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form View for patient.act.session -->
+    <record id="view_patient_act_session_form" model="ir.ui.view">
+        <field name="name">patient.act.session.form</field>
+        <field name="model">patient.act.session</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="patient_id" string="Patient" />
+                        <field name="act_id" string="Acte de Kinésithérapie"/>
+                        <!-- Number of Sessions Field -->
+                        <field name="number_of_sessions" string="Nombre de séances"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

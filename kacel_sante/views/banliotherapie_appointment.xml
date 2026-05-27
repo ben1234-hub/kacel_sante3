@@ -1,0 +1,177 @@
+<odoo>
+<record id="view_banliotherapie_search" model="ir.ui.view">
+    <field name="name">banliotherapie.appointment.search</field>
+    <field name="model">banliotherapie.appointment</field>
+    <field name="arch" type="xml">
+        <search>
+
+            <filter name="state_filter" string="Filtrer par Statut">
+                <filter string="Confirmé" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Terminé" name="done" domain="[('state','=','done')]"/>
+            </filter>
+        </search>
+    </field>
+</record>
+
+    <record id="view_banliotherapie_form" model="ir.ui.view">
+        <field name="name">banliotherapie.appointment.form</field>
+        <field name="model">banliotherapie.appointment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="appointment_date_weekday" invisible="1"/>
+                    <field name="time_of_day" invisible="1"/>
+                    <field name="all_patients_paid" invisible="1"/>
+                    <field name="all_patients_paid" invisible="1"/>
+                <button name="action_mark_all_paid"
+                        type="object"
+                        class="oe_highlight"
+                        string="Marquer tous payés"
+                        invisible="all_patients_paid or state != 'confirmed'"/>
+
+                <!-- Bouton Terminer Vert -->
+                <button name="action_done"
+                        type="object"
+                        class="btn-success"
+                        string="Terminer"
+                        invisible="not all_patients_paid or state != 'confirmed'"/>
+
+                <!-- Bouton Terminer Rouge -->
+                <button name="action_done"
+                        type="object"
+                        class="btn-danger"
+                        string="Terminer (Paiements manquants)"
+                        invisible="all_patients_paid or state != 'confirmed'"/>
+
+                <button name="action_confirm"
+                        type="object"
+                        class="btn-primary"
+                        string="Confirmer"
+                        invisible="state!='draft'"/>
+
+                <button name="action_cancel"
+                        type="object"
+                        class="btn-danger"
+                        string="Annuler"
+                        invisible="state in ['done', 'canceled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,canceled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                name="open_caisse_history"
+                                string="Total Amount: "
+                                icon="fa-money"
+                                style="background-color:green; color:black;">
+                            <field name="total_amount_from_history" readonly="1"/>
+                        </button>
+                    </div>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="appointment_date" required="1"/>
+                            <field name="duration" required="1"/>
+                             <field name="planning_slot_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="end_date" readonly="1"/>
+                            <field name="total_amount"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                    <page string="Patients">
+                        <field name="patient_line_ids">
+                            <tree editable="bottom">
+                                <field name="patient_id" widget="many2one" options="{'no_create': True}"/>
+                                <field name="phone"/>
+                                <field name="age"/>
+                                <field name="sexe"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="tarif_id" string="Choix"/>
+                                <field name="amount" readonly="1"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="paid" widget="boolean_button"
+                                       options="{'terminology': 'paid'}"
+                                       class="oe_inline"/>
+                                <!-- Add the button here -->
+                                <button name="action_change_appointment"
+                                        type="object" string="Changer RDV"
+                                        class="btn-primary"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_banliotherapie_tree" model="ir.ui.view">
+        <field name="name">banliotherapie.appointment.tree</field>
+        <field name="model">banliotherapie.appointment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="appointment_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+        <!-- Calendar View -->
+
+    <record id="view_banliotherapie_calendar" model="ir.ui.view">
+        <field name="name">banliotherapie.appointment.calendar</field>
+        <field name="model">banliotherapie.appointment</field>
+        <field name="arch" type="xml">
+            <calendar string="Banliothérapie Appointments"
+                      quick_create="false"
+                      create="form"
+                      date_start="appointment_date"
+                      date_stop="end_date" color="state">
+                <field name="name"/>
+                <field name="patient_line_ids"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="view_change_appointment_wizard_form" model="ir.ui.view">
+    <field name="name">change.appointment.wizard.form</field>
+    <field name="model">change.appointment.wizard</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="patient_line_id" invisible="1"/>
+                <field name="new_appointment_id" string="Sélectionner un RDV"/>
+            </group>
+            <footer>
+                <button name="action_confirm" type="object" string="Confirmer" class="btn-primary"/>
+                <button string="Annuler" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+    <record id="action_banliotherapie" model="ir.actions.act_window">
+        <field name="name">Rendez-vous Banliothérapie</field>
+        <field name="res_model">banliotherapie.appointment</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+<!--    <menuitem id="menu_banliotherapie" name="Banliothérapie" parent="menu_kinesitherapy_root" action="action_banliotherapie"/>-->
+    <menuitem id="menu_banliotherapie_root" name="Banliothérapie"/>
+    <menuitem id="menu_banliotherapie"
+              name="Rendez-vous" parent="menu_banliotherapie_root"
+              action="action_banliotherapie"
+              sequence="2"/>
+
+    <menuitem id="menu_patient_action1"
+              name="Patients"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1"
+              parent="menu_banliotherapie_root"
+              action="action_patient"
+              sequence="3"/>
+
+</odoo>

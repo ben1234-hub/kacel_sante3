@@ -1,0 +1,53 @@
+<odoo>
+    <!-- Ajouter à caisse_views.xml -->
+    <record id="view_caisse_banliotherapie_tree" model="ir.ui.view">
+        <field name="name">history.caisse.banliotherapie.tree</field>
+        <field name="model">history.caisse.banliotherapie</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="currency_id" invisible="1"/>
+                <field name="date"/>
+                <field name="number_of_appointments"/>
+                <field name="total_amount" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_caisse_banliotherapie_form" model="ir.ui.view">
+        <field name="name">history.caisse.banliotherapie.form</field>
+        <field name="model">history.caisse.banliotherapie</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1><field name="date" readonly="1"/></h1>
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="total_amount" widget="monetary"
+                               options="{'currency_field': 'currency_id'}"/>
+                        <field name="number_of_appointments"/>
+                    </group>
+                    <field name="appointment_ids" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="total_amount"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_history_banliotherapie" model="ir.actions.act_window">
+        <field name="name">Historique Banliothérapie</field>
+        <field name="res_model">history.caisse.banliotherapie</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_history_banliotherapie"
+              name="Caisse Banliothérapie"
+              parent="menu_banliotherapie_root"
+              action="action_open_history_banliotherapie"/>
+</odoo>

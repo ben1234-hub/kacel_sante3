@@ -1,0 +1,27 @@
+<odoo>
+
+<!-- Vue pour gestion.tarif -->
+<record id="view_gestion_tarif_tree" model="ir.ui.view">
+    <field name="name">gestion.tarif.tree</field>
+    <field name="model">gestion.tarif</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+            <field name="montant"/>
+            <field name="description"/>
+        </tree>
+    </field>
+</record>
+
+<record id="action_gestion_tarif" model="ir.actions.act_window">
+    <field name="name">Gestion des Tarifs</field>
+    <field name="res_model">gestion.tarif</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="menu_gestion_tarif"
+          name="Tarifs"
+          parent="menu_banliotherapie_root"
+          action="action_gestion_tarif"/>
+
+</odoo>

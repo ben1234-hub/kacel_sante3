@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action for the Medical Doctor model -->
+    <record id="action_medical_doctor" model="ir.actions.act_window">
+        <field name="name">Médecins</field>
+        <field name="res_model">medical.doctor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Tree View for Medical Doctor -->
+    <record id="view_medical_doctor_tree" model="ir.ui.view">
+        <field name="name">medical.doctor.tree</field>
+        <field name="model">medical.doctor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="specialite"/>
+                <field name="affectation"/>
+                <field name="date_recrutement"/>
+                <field name="date_fin_contrat"/>
+                <field name="active"/>
+<!--                <field name="en_consultation"/>-->
+            </tree>
+        </field>
+    </record>
+=
+    <!-- Form View for Medical Doctor -->
+<record id="view_medical_doctor_form" model="ir.ui.view">
+    <field name="name">medical.doctor.form</field>
+    <field name="model">medical.doctor</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <!-- Header Section -->
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" class="oe_inline"
+                               placeholder="exp: Dr Mohamed Ali" />
+                    </h1>
+                </div>
+                <!-- Main Content -->
+                <group>
+                    <group>
+                        <!-- Left Column -->
+                        <field name="specialite"/>
+                        <field name="affectation"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                    </group>
+                    <group>
+                        <!-- Right Column -->
+                        <field name="date_recrutement"/>
+                        <field name="date_fin_contrat"/>
+                        <field name="active" widget="boolean_fa" options="{'fa_check': 'fa-circle text-success', 'fa_times': 'fa-circle text-danger'}" readonly="1"/>
+                    </group>
+                </group>
+                <!-- Notebook for Additional Information -->
+                <notebook>
+                    <!-- Patients Consulted -->
+                    <page string="Patients Consultés">
+                        <field name="patients_with_same_affictation">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_de_consultation"/>
+                                <field name="phone"/>
+                                <field name="age"/>
+                                <field name="sexe"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="date_de_consultation"/>
+                                        <field name="phone"/>
+                                        <field name="age"/>
+                                        <field name="sexe"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+    <!-- Search View for Medical Doctor -->
+    <record id="view_medical_doctor_search" model="ir.ui.view">
+        <field name="name">medical.doctor.search</field>
+        <field name="model">medical.doctor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="specialite"/>
+                <field name="affectation"/>
+                <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                <filter string="En Consultation" name="en_consultation" domain="[('en_consultation', '=', True)]"/>
+                <filter string="Contrats Expirés" name="expired_contracts" domain="[('date_fin_contrat', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

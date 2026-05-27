@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Définir une action pour ouvrir la vue de kinesitherapy.act -->
+    <record id="action_kinesitherapy_act" model="ir.actions.act_window">
+        <field name="name">Actes de Kinésithérapie</field>
+        <field name="res_model">kinesitherapy.act</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Définir les vues (tree et form) pour kinesitherapy.act -->
+    <record id="view_kinesitherapy_act_tree" model="ir.ui.view">
+        <field name="name">kinesitherapy.act.tree</field>
+        <field name="model">kinesitherapy.act</field>
+        <field name="arch" type="xml">
+            <tree string="Actes de Kinésithérapie">
+                <field name="name"/>
+                <field name="amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_kinesitherapy_act_form" model="ir.ui.view">
+        <field name="name">kinesitherapy.act.form</field>
+        <field name="model">kinesitherapy.act</field>
+        <field name="arch" type="xml">
+            <form string="Acte de Kinésithérapie">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="amount"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

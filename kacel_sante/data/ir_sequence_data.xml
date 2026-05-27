@@ -1,0 +1,24 @@
+<odoo>
+    <record id="seq_dossier_patient" model="ir.sequence">
+        <field name="name">Séquence Numéro de Dossier Patient</field>
+        <field name="code">seq_dossier_patient</field>
+        <field name="prefix">PAT/</field> <!-- Préfixe optionnel -->
+        <field name="padding">4</field> <!-- Nombre de chiffres dans la séquence -->
+        <field name="company_id" eval="False"/> <!-- Séquence globale (non liée à une société) -->
+    </record>
+
+    <record id="seq_medical_appointment" model="ir.sequence">
+        <field name="name">Rendez-vous Médical</field>
+        <field name="code">medical.appointment</field>
+        <field name="prefix">RDV-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_verssement" model="ir.sequence">
+        <field name="name">Versement Sequence</field>
+        <field name="code">verssement.sequence</field>
+        <field name="prefix">V</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

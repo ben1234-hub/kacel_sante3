@@ -1,0 +1,114 @@
+<odoo>
+        <!-- Action for Medical Appointment -->
+<record id="action_medical_appointment" model="ir.actions.act_window">
+    <field name="name">Consultation Médicale</field>
+    <field name="res_model">medical.appointment</field>
+    <field name="view_mode">calendar,tree,form</field>
+    <field name="context">{'search_default_today': 1}</field>
+</record>
+    <menuitem id="menu_root"
+              name="Consultation Médicale"/>
+    <!-- Menu Principal -->
+    <menuitem id="menu_main"
+              name="Consultation Médicale"
+              action="action_medical_appointment"
+              sequence="5"/>
+
+    <!-- Sous-menu Patient -->
+    <menuitem id="menu_patient_action"
+              name="Patients"
+              parent="menu_main"
+              action="action_patient"
+              sequence="4"/>
+
+    <!-- Sous-menu Configuration -->
+    <menuitem id="menu_configuration"
+              name="Configuration"
+              parent="menu_main"
+              sequence="10"/>
+
+    <!-- Menu Item for Actes de Kinésithérapie -->
+    <menuitem id="menu_kinesitherapy_act"
+              name="Actes Médicaux"
+              parent="menu_configuration"
+              action="action_kinesitherapy_act"
+              sequence="2"/>
+
+    <!-- Menu Item for Affiction -->
+    <menuitem id="menu_affiction_configuration"
+              name="Affection"
+              parent="menu_configuration"
+              action="action_affiction"
+              sequence="1"/>
+    <!-- Menu Item for  -->
+    <menuitem id="menu_acte_patient_configuration"
+              name="Actes Patient"
+              parent="menu_configuration"
+              action="action_patient_act_session_views"
+              sequence="4"/>
+
+    <!-- Menu Item for Médecins -->
+    <menuitem id="menu_medical_doctor"
+              name="Médecins"
+              parent="menu_main"
+              action="action_medical_doctor"
+              sequence="3"/>
+
+
+    <menuitem id="menu_history_caisse_root"
+              name="Caisses"
+              parent="menu_main"
+              sequence="9"/>
+    <menuitem id="menu_history_caisse"
+              name="Caisse 1ere etage"
+              parent="menu_history_caisse_root"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception2"
+              action="action_open_history_caisse"/>
+    <menuitem id="menu_caisse_abonnement"
+              name="Caisse Abonnement"
+              parent="menu_history_caisse_root"
+              action="action_open_caisse_abonnement"/>
+
+    <menuitem id="menu_gestion_abonnement"
+              name="Abonnements"
+              parent="menu_main"
+              action="action_open_gestion_abonnement"
+              sequence="5"/>
+    <menuitem id="menu_service_intensif_root"
+              name="Services Intensive"/>
+
+    <menuitem id="menu_service_intensif"
+              name="Services Intensifs"
+              parent="menu_service_intensif_root"
+              action="action_service_intensif"
+              sequence="1"/>
+    <menuitem id="menu_patient_action_intensif"
+              groups="kacel_sante.group_kacel_manager,kacel_sante.group_kacel_reception1,kacel_sante.group_kacel_reception2"
+              name="Patients"
+              parent="menu_service_intensif_root"
+              action="action_patient"
+              sequence="2"/>
+
+    <menuitem id="menu_configuration_root"
+              name="Configuration"
+              parent="menu_service_intensif_root"
+              sequence="5"/>
+
+    <menuitem id="menu_service_intensif_config_action"
+              name="Configuration du Service Intensif"
+              parent="menu_configuration_root"
+              action="action_service_intensif_config"/>
+
+    <menuitem id="menu_kinesitherapist_action"
+              name="Kinésithérapeutes"
+              parent="menu_service_intensif_root"
+              action="action_kinesitherapist"
+              sequence="3"/>
+
+    <menuitem id="menu_planing_kines_action"
+              name="Planning" parent="menu_service_intensif_root"
+              action="action_planing_kines"
+              sequence="4"/>
+
+
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View for Act Practice Count -->
+    <record id="view_act_practice_count_tree" model="ir.ui.view">
+        <field name="name">act.practice.count.tree</field>
+        <field name="model">act.practice.count</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date" string="Date"/>
+                <field name="daily_total" string="Total de la journée"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View for Act Practice Count -->
+    <record id="view_act_practice_count_form" model="ir.ui.view">
+        <field name="name">act.practice.count.form</field>
+        <field name="model">act.practice.count</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="date" string="Date"/>
+                        <field name="daily_total" string="Total de la journée"/>
+                    </group>
+                    <notebook>
+                        <page string="Détails des actes">
+                            <field name="act_details_ids">
+                                <tree editable="bottom">
+                                    <field name="act_id" string="Nom de l'acte"/>
+                                    <field name="count" string="Nombre"/>
+                                    <field name="unit_amount" string="Montant unitaire"/>
+                                    <field name="total" string="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Action to Open the Views -->
+    <record id="action_act_practice_count" model="ir.actions.act_window">
+        <field name="name">Comptes des Pratiques des Actes</field>
+        <field name="res_model">act.practice.count</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_act_practice_count"
+              name="Comptes des Pratiques"
+              parent="menu_kinesitherapy_root"
+              action="action_act_practice_count"
+              sequence="4"/>
+
+</odoo>
